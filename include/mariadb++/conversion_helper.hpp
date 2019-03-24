@@ -10,6 +10,8 @@
 #define MARIADBCLIENTPP_CONVERSION_HELPER_H
 
 #include <limits>
+#include <stdexcept>
+#include <string>
 
 #ifdef WIN32
 #undef max
