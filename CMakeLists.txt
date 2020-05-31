@@ -47,8 +47,17 @@ file(GLOB mariadbclientpp_SOURCES src/*.cpp)
 add_library(mariadbclientpp ${mariadbclientpp_SOURCES} ${mariadbclientpp_PUBLIC_HEADERS} ${mariadbclientpp_PRIVATE_HEADERS})
 
 # target options
-target_link_libraries(mariadbclientpp mariadbclient Threads::Threads)
-target_include_directories(mariadbclientpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include ${MariaDBClient_INCLUDE_DIRS} ${INTERCEPT_INCLUDE_PATH})
+target_link_libraries(mariadbclientpp MariaDBClient::MariaDBClient Threads::Threads)
+
+
+target_include_directories(
+	mariadbclientpp
+	PUBLIC
+	"$<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>"
+	"$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+	"$<BUILD_INTERFACE:${INTERCEPT_INCLUDE_PATH}>"
+	)
+
 target_compile_features(mariadbclientpp
 	PUBLIC cxx_std_11)
 #target_compile_options(mariadbclientpp PRIVATE -Wall -Wextra)
