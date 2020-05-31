@@ -8,15 +8,44 @@ C++ client library for MariaDB. Uses the C connector.
 * Data type support: blob, decimal, datetime, time, timespan, etc.
 * Exceptions
 
-## Setup
+## Dependencies
+Install `mariadbclient` or `mysqlclient` libraries.
+
+## Usage (local)
 1. Initialize Git submodules: `git submodule update --init`
-2. Install `mariadbclient` or `mysqlclient` libraries.
-3. Link against the `mariadbclientpp` CMake target in your project.
+2. Add `mariadbclientpp` as a subdirectory in your own `CMakeLists.txt`:
 
-### Building tests
-Create database and user according to the information in [test/CMakeLists.txt](test/CMakeLists.txt) or adjust these values.
+```cmake
+add_subdirectory(/path/to/mariadbpp)
+...
+target_link_libraries(target mariadbclientpp)
+```
 
-## Usage example
+## Usage (global)
+### Build and install instructions
+1. Initialize Git submodules: `git submodule update --init`
+2. `mkdir build; cd build`
+3. `cmake ..`
+4. `make install`
+
+### Linking instructions
+Add `mariadbclientpp` as a CMake package to your CMake project. Make sure
+that the environment variable `CMAKE_PREFIX_PATH` includes the directory
+where the `mariadbclientpp-config.cmake` file was installed:
+
+```cmake
+find_package(mariadbclientpp)
+...
+target_link_libraries(target mariadbclientpp::mariadbclientpp)
+```
+
+## Building tests
+1. Create database and user according to the information in
+[test/CMakeLists.txt](test/CMakeLists.txt) or adjust these values.
+2. Enable tests with `-DMARIADBPP_TEST=ON` and build the software.
+
+
+## Example
 ```c++
 // set up the account
 account_ref acc = account::create(...);
@@ -54,4 +83,5 @@ stmt->insert();
 More usage examples can be found in the `test/` directory.
 
 ## License
-This library is subject to the Boost Software License. See accompanying [LICENSE](LICENSE) file.
+This library is subject to the Boost Software License. See accompanying
+[LICENSE](LICENSE) file.
